@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samarth Gupta // CS · Data · ML · IT Portfolio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .cyber-grid {
+      background-image:
+        linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    html:not(.dark) .cyber-grid {
+      background-image:
+        linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+    }
+    .glow-border {
+      box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.18), 0 12px 32px -12px rgba(6, 182, 212, 0.22);
+    }
+    .terminal-scroll::-webkit-scrollbar { width: 6px; }
+    .terminal-scroll::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.35); border-radius: 9999px; }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    .cursor-blink { animation: blink 1s step-end infinite; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-[#070b14] dark:text-slate-100 font-sans antialiased cyber-grid min-h-screen transition-colors duration-200">
+
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-[#070b14]/85 border-b border-slate-200 dark:border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <a href="#top" class="flex items-center gap-2.5 font-mono text-sm sm:text-base font-semibold tracking-tight shrink-0">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">&gt;_</span>
+        <span>samarth<span class="text-cyan-600 dark:text-cyan-400">.dev</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <a href="#terminal" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Terminal</a>
+        <a href="#timeline" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Timeline</a>
+        <a href="#projects" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Projects</a>
+        <a href="#skills" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Skills</a>
+        <a href="#credentials" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Credentials</a>
+        <a href="#contact" class="px-3 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800/80 transition">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button id="cmdPaletteBtn" type="button" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono border border-slate-300 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-900/80 hover:border-cyan-500/60 transition" title="Open Quick Command Palette (Ctrl+K)">
+          <i data-lucide="command" class="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400"></i>
+          <span class="hidden sm:inline">Palette</span>
+          <kbd class="hidden sm:inline px-1.5 py-0.5 text-[10px] rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">⌘K</kbd>
+        </button>
+        <button id="themeToggle" type="button" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-900/80 hover:border-cyan-500/60 transition" aria-label="Toggle theme">
+          <i data-lucide="sun" id="themeIconSun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+          <i data-lucide="moon" id="themeIconMoon" class="w-4 h-4 block dark:hidden text-slate-700"></i>
+        </button>
+        <button id="mobileMenuBtn" type="button" class="md:hidden p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-900/80" aria-label="Toggle navigation menu">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Nav -->
+    <div id="mobileNav" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 px-4 py-3 flex flex-wrap gap-2 bg-white dark:bg-[#0b1120] text-sm">
+      <a href="#terminal" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Terminal</a>
+      <a href="#timeline" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Timeline</a>
+      <a href="#projects" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Projects</a>
+      <a href="#skills" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Skills</a>
+      <a href="#credentials" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Credentials</a>
+      <a href="#contact" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80">Contact</a>
+    </div>
+  </header>
+
+  <main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-14">
+
+    <!-- Hero & Telemetry -->
+    <section class="grid lg:grid-cols-12 gap-6 items-center">
+      <div class="lg:col-span-7 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          STATUS: ACTIVE // CONSULTANT – COMPUTER SCIENCE @ CHEGG INDIA
+        </div>
+
+        <div class="space-y-2">
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Samarth Gupta
+          </h1>
+          <p class="font-mono text-sm sm:text-base text-cyan-700 dark:text-cyan-400">
+            <span id="typedRole">B.Tech Computer Science · Data Analytics · ML · IT Support</span><span class="cursor-blink">_</span>
+          </p>
+        </div>
+
+        <p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed max-w-2xl">
+          Computer Science graduate (CGPA <span class="font-semibold text-slate-900 dark:text-white">8.39/10</span>, Chaudhary Charan Singh University) based in Noida, India. I turn messy datasets into decision-ready Power BI &amp; Tableau dashboards, build high-precision ML pipelines, and solve core CS &amp; networking challenges.
+        </p>
+
+        <div class="flex flex-wrap gap-2.5 pt-1">
+          <a href="https://github.com/Samarth211103" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-slate-900 text-white dark:bg-cyan-500 dark:text-slate-950 hover:opacity-90 transition">
+            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/samarth-gupta-58b74128b/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-cyan-500 transition">
+            <i data-lucide="linkedin" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i> LinkedIn
+          </a>
+          <a href="https://portfolio-hazel-two-54.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-cyan-500 transition">
+            <i data-lucide="globe" class="w-4 h-4 text-violet-600 dark:text-violet-400"></i> Live Site
+          </a>
+          <button type="button" data-copy="samarthgupta195@gmail.com" data-label="Email" class="copy-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-cyan-500 transition">
+            <i data-lucide="copy" class="w-4 h-4 text-cyan-600 dark:text-cyan-400"></i> Copy Email
+          </button>
+        </div>
+      </div>
+
+      <!-- Telemetry Grid -->
+      <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 glow-border">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span>DATASETS</span>
+            <i data-lucide="database" class="w-4 h-4 text-cyan-500"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold font-mono mt-2 text-cyan-600 dark:text-cyan-400">58+</div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Cleaned &amp; standardized (+25% consistency)</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 glow-border">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span>SQL QUERIES</span>
+            <i data-lucide="terminal" class="w-4 h-4 text-violet-500"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold font-mono mt-2 text-violet-600 dark:text-violet-400">30+</div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Joins, CTEs, window functions &amp; optimization</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 glow-border">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span>DASHBOARDS</span>
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold font-mono mt-2 text-emerald-600 dark:text-emerald-400">15+</div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Power BI &amp; Tableau (+25% reporting accuracy)</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 glow-border">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span>ML ROC-AUC</span>
+            <i data-lucide="cpu" class="w-4 h-4 text-amber-500"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold font-mono mt-2 text-amber-600 dark:text-amber-400">0.991</div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">LightGBM anomaly pipeline (0.847 PR-AUC)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive CLI Terminal -->
+    <section id="terminal" class="space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <span class="font-mono text-cyan-600 dark:text-cyan-400">01.</span> Interactive Shell
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Type a command or click a quick-run pill to inspect my profile.</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="neofetch">neofetch</button>
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="whoami">whoami</button>
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="skills">skills</button>
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="projects">projects</button>
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="certs">certs</button>
+          <button type="button" class="cli-chip px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/80 dark:bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-300 transition" data-cmd="clear">clear</button>
+        </div>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 bg-[#0b1020] text-slate-200 shadow-xl">
+        <div class="px-4 py-2.5 bg-[#11182b] border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/90"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-400/90"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/90"></span>
+            <span class="ml-2 text-xs font-mono text-slate-400">samarth@noida:~/portfolio — bash</span>
+          </div>
+          <span class="text-[11px] font-mono text-slate-500">type "help" for commands</span>
+        </div>
+
+        <div id="terminalOutput" class="p-4 h-64 overflow-y-auto terminal-scroll font-mono text-xs sm:text-sm space-y-2.5 leading-relaxed"></div>
+
+        <form id="terminalForm" class="px-4 py-3 bg-[#090d1a] border-t border-slate-800 flex items-center gap-2 font-mono text-xs sm:text-sm">
+          <span class="text-emerald-400 shrink-0">samarth@dev:~$</span>
+          <input id="terminalInput" type="text" autocomplete="off" spellcheck="false" placeholder="try 'neofetch', 'experience', 'projects', 'contact'..." class="w-full bg-transparent text-slate-100 placeholder-slate-500 focus:outline-none" />
+          <button type="submit" class="px-3 py-1 rounded-md bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition text-xs shrink-0">Run</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Experience & Continuous Timeline (2020 - Nov 2026) -->
+    <section id="timeline" class="space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <span class="font-mono text-cyan-600 dark:text-cyan-400">02.</span> Experience &amp; Continuous Timeline
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Complete, gap-free academic and professional history (Jul 2020 – Nov 2026).</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5" id="timelineFilters">
+          <button type="button" data-filter="all" class="tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white">All</button>
+          <button type="button" data-filter="work" class="tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Work</button>
+          <button type="button" data-filter="education" class="tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Education</button>
+          <button type="button" data-filter="transition" class="tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Study / Breaks</button>
+        </div>
+      </div>
+
+      <div id="timelineContainer" class="relative pl-6 border-l-2 border-slate-300 dark:border-slate-800 space-y-5"></div>
+    </section>
+
+    <!-- Projects Showcase -->
+    <section id="projects" class="space-y-5">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <span class="font-mono text-cyan-600 dark:text-cyan-400">03.</span> Projects &amp; Applied Labs
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Filter by domain or search by stack, then inspect architecture &amp; metrics.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <div class="relative flex-1 sm:w-56">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input id="projectSearch" type="text" placeholder="Search Python, Power BI..." class="w-full pl-9 pr-3 py-1.5 rounded-lg text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:border-cyan-500" />
+          </div>
+          <div class="flex flex-wrap gap-1.5" id="projectFilters">
+            <button type="button" data-cat="all" class="proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white">All</button>
+            <button type="button" data-cat="ml" class="proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">ML &amp; Python</button>
+            <button type="button" data-cat="bi" class="proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">BI &amp; Analytics</button>
+            <button type="button" data-cat="it" class="proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Networking &amp; IT</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="projectsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Skills Matrix & Chart -->
+    <section id="skills" class="space-y-5">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+          <span class="font-mono text-cyan-600 dark:text-cyan-400">04.</span> Technical Stack &amp; Telemetry
+        </h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Interactive domain breakdown across Data/ML, BI, IT Networking, and CS fundamentals.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+        <div class="lg:col-span-5 p-5 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+          <div>
+            <h3 class="text-sm font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Verified Stack Coverage</h3>
+            <div class="relative h-72">
+              <canvas id="skillsChart"></canvas>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-3 font-mono">
+            * Based on completed internships, Cisco labs, B.Tech coursework &amp; deployed projects.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 flex flex-col">
+          <div class="flex flex-wrap gap-2 mb-4" id="skillTabs">
+            <button type="button" data-skill="data" class="skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white">Data &amp; ML</button>
+            <button type="button" data-skill="bi" class="skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">BI &amp; Visualization</button>
+            <button type="button" data-skill="it" class="skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">IT &amp; Networking</button>
+            <button type="button" data-skill="cs" class="skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CS Core &amp; Systems</button>
+          </div>
+
+          <div id="skillPanel" class="flex-1 space-y-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications & Languages -->
+    <section id="credentials" class="space-y-5">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+          <span class="font-mono text-cyan-600 dark:text-cyan-400">05.</span> Certifications &amp; Languages
+        </h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Verified industry credentials and language proficiency.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <div class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CISCO NETWORKING ACADEMY · OCT 2026</div>
+          <h3 class="font-semibold mt-1">Networking Basics</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5">Completed all 13 hands-on labs across 17 modules covering Ethernet, IP addressing, and application-layer services.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <div class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CISCO NETWORKING ACADEMY · OCT 2026</div>
+          <h3 class="font-semibold mt-1">IT Customer Support Basics</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5">Completed all hands-on labs for help desk operations, troubleshooting methodology, and remote support (CCST-IT aligned).</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <div class="text-xs font-mono text-violet-600 dark:text-violet-400">IBM SKILLSBUILD</div>
+          <h3 class="font-semibold mt-1">Data Fundamentals</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5">Foundational data analytics concepts, data lifecycle, cleaning, and visualization principles.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <div class="text-xs font-mono text-violet-600 dark:text-violet-400">TATA GROUP · FORAGE</div>
+          <h3 class="font-semibold mt-1">Data Visualization: Empowering Business</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5">Executive-ready visual storytelling and framing business metrics for leadership decisions.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <div class="text-xs font-mono text-violet-600 dark:text-violet-400">DELOITTE · FORAGE</div>
+          <h3 class="font-semibold mt-1">Data Analytics Job Simulation</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5">Practical analytics simulation covering data exploration, anomaly checks, and client reporting.</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono text-emerald-600 dark:text-emerald-400">COMMUNICATION</div>
+            <h3 class="font-semibold mt-1">Languages</h3>
+          </div>
+          <div class="space-y-2 mt-3 text-sm">
+            <div class="flex items-center justify-between">
+              <span>English (India)</span>
+              <span class="px-2 py-0.5 rounded-md text-xs font-mono bg-cyan-500/15 text-cyan-700 dark:text-cyan-300">Professional Working</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Hindi (India)</span>
+              <span class="px-2 py-0.5 rounded-md text-xs font-mono bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">Native</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 glow-border">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <div class="text-xs font-mono text-cyan-600 dark:text-cyan-400">06. // CONNECT</div>
+          <h2 class="text-2xl font-bold">Ready for Data, ML, CS &amp; Technical Roles</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+            Based in Noida, Uttar Pradesh, India. Open to Data Analyst, Junior ML/Data Science, IT Support, and Computer Science consulting opportunities.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          <button type="button" data-copy="samarthgupta195@gmail.com" data-label="Email" class="copy-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-mono bg-cyan-600 text-white hover:bg-cyan-500 transition">
+            <i data-lucide="mail" class="w-4 h-4"></i> samarthgupta195@gmail.com
+          </button>
+          <button type="button" data-copy="+91 9794328201" data-label="Phone" class="copy-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-mono border border-slate-300 dark:border-slate-700 hover:border-cyan-500 transition">
+            <i data-lucide="phone" class="w-4 h-4 text-emerald-500"></i> +91 9794328201
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-200 dark:border-slate-800/80 py-6 text-center text-xs font-mono text-slate-500">
+    Samarth Gupta · Noida, Uttar Pradesh, India · Built with interactive CLI &amp; live telemetry
+  </footer>
+
+  <!-- Project Detail Modal -->
+  <div id="projectModal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-300 dark:border-slate-700 p-6 space-y-4 shadow-2xl">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span id="modalBadge" class="inline-block px-2.5 py-0.5 rounded-md text-xs font-mono bg-cyan-500/15 text-cyan-700 dark:text-cyan-300"></span>
+          <h3 id="modalTitle" class="text-lg font-bold mt-2"></h3>
+        </div>
+        <button id="closeProjectModal" type="button" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800" aria-label="Close modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <p id="modalDesc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+      <div id="modalHighlights" class="space-y-1.5 text-sm text-slate-700 dark:text-slate-300"></div>
+      <div id="modalStack" class="flex flex-wrap gap-1.5 pt-1"></div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+        <a id="modalLink" href="https://github.com/Samarth211103" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-cyan-600 text-white hover:bg-cyan-500 transition">
+          <i data-lucide="external-link" class="w-4 h-4"></i> Open Repository
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Command Palette Modal -->
+  <div id="cmdModal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-start justify-center pt-20 p-4">
+    <div class="w-full max-w-md rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-300 dark:border-slate-700 overflow-hidden shadow-2xl">
+      <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <span class="text-xs font-mono text-slate-500">QUICK COMMAND PALETTE</span>
+        <button id="closeCmdModal" type="button" class="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800" aria-label="Close palette">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-2 space-y-1 text-sm font-mono">
+        <button type="button" class="cmd-action w-full text-left px-3 py-2 rounded-lg hover:bg-cyan-500/15 flex items-center justify-between" data-action="scroll:#terminal"><span>&gt; Jump to Interactive Shell</span><span class="text-xs text-slate-400">#terminal</span></button>
+        <button type="button" class="cmd-action w-full text-left px-3 py-2 rounded-lg hover:bg-cyan-500/15 flex items-center justify-between" data-action="scroll:#timeline"><span>&gt; View Gapless Timeline (2020–2026)</span><span class="text-xs text-slate-400">#timeline</span></button>
+        <button type="button" class="cmd-action w-full text-left px-3 py-2 rounded-lg hover:bg-cyan-500/15 flex items-center justify-between" data-action="scroll:#projects"><span>&gt; Browse All 5 Projects</span><span class="text-xs text-slate-400">#projects</span></button>
+        <button type="button" class="cmd-action w-full text-left px-3 py-2 rounded-lg hover:bg-cyan-500/15 flex items-center justify-between" data-action="cli:neofetch"><span>&gt; Run `neofetch` in Terminal</span><span class="text-xs text-slate-400">CLI</span></button>
+        <button type="button" class="cmd-action w-full text-left px-3 py-2 rounded-lg hover:bg-cyan-500/15 flex items-center justify-between" data-action="copy:samarthgupta195@gmail.com"><span>&gt; Copy Email Address</span><span class="text-xs text-slate-400">clipboard</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-cyan-500 text-white dark:text-slate-950 font-mono text-xs font-semibold shadow-lg"></div>
+
+  <script>
+    const TIMELINE_DATA = [
+      {
+        type: 'work',
+        date: 'Oct 2026 – Present (Nov 2026)',
+        title: 'Consultant – Computer Science',
+        org: 'Chegg India',
+        details: [
+          'Solve undergraduate CS problems across DSA, Operating Systems, DBMS, and Computer Networks with structured, step-by-step explanations.',
+          'Deliver accurate technical solutions under strict quality and turnaround standards.'
+        ],
+        tags: ['DSA', 'OS', 'DBMS', 'Networks']
+      },
+      {
+        type: 'transition',
+        date: 'Aug 2026 – Sep 2026',
+        title: 'Studying — Cisco Networking & IT Support Prep',
+        org: 'Cisco Networking Academy',
+        details: [
+          'Completed intensive networking and help desk lab preparation leading to Networking Basics & IT Customer Support Basics credentials.'
+        ],
+        tags: ['TCP/IP', 'Packet Tracer', 'Help Desk']
+      },
+      {
+        type: 'work',
+        date: 'Oct 2025 – Dec 2025',
+        title: 'Data Analyst Intern',
+        org: 'Codec Technologies Pvt. Ltd.',
+        details: [
+          'Cleaned, preprocessed, and validated data across 10+ analytics tasks using Python and Excel, lifting reporting accuracy by 25%.',
+          'Designed and shipped 8+ Power BI and Tableau dashboards for weekly leadership decision-making with 100% on-time delivery.'
+        ],
+        tags: ['Python', 'Excel', 'Power BI', 'Tableau']
+      },
+      {
+        type: 'work',
+        date: 'Apr 2025 – Oct 2025',
+        title: 'Data Analyst Trainee',
+        org: 'E&ICT Academy IITG | Coding Ninjas',
+        details: [
+          'Cleaned and transformed 58 datasets using Excel, SQL, and Python (NumPy, Pandas), lifting consistency by 25%.',
+          'Authored 30+ SQL queries (joins, aggregations, subqueries) and built 6–10 Power BI, Matplotlib, and Seaborn dashboards.'
+        ],
+        tags: ['SQL', 'Pandas', 'NumPy', 'Power BI']
+      },
+      {
+        type: 'education',
+        date: 'Oct 2022 – Jul 2026',
+        title: 'B.Tech in Computer Science',
+        org: 'Chaudhary Charan Singh University (S.C.R.I.E.T., Meerut)',
+        details: [
+          'Graduated with CGPA 8.39 / 10.',
+          'Relevant Coursework: Operating Systems, Computer Networks, Database Management Systems, Data Structures.'
+        ],
+        tags: ['CGPA 8.39/10', 'B.Tech CS']
+      },
+      {
+        type: 'transition',
+        date: 'Aug 2022 – Sep 2022',
+        title: 'Career Break — College Admission Transition',
+        org: 'Noida / Meerut, U.P.',
+        details: [
+          'Transition period between Class XII board completion and B.Tech Computer Science enrollment.'
+        ],
+        tags: ['Transition']
+      },
+      {
+        type: 'education',
+        date: 'Jul 2020 – Jul 2022',
+        title: 'Upper Secondary Education (Class XII, PCM)',
+        org: 'Shri Guru Ram Rai Public School, Hardoi, U.P.',
+        details: [
+          'Subjects: Physics, Chemistry, Mathematics, English, Hindi. Also completed Lower Secondary (Class X) in Jul 2020.'
+        ],
+        tags: ['PCM', 'Class XII']
+      }
+    ];
+
+    const PROJECTS_DATA = [
+      {
+        id: 'pred-maint',
+        cat: 'ml',
+        badge: 'ML & PYTHON',
+        title: 'Predictive Maintenance — Sensor Anomaly Detection',
+        summary: 'End-to-end supervised ML pipeline for energy-manufacturing sensor data with temporal & log-decoded features.',
+        highlights: [
+          'Engineered temporal and log-decoded features and handled severe class imbalance with stratified k-fold cross-validation.',
+          'Achieved 0.991 ROC-AUC and 0.847 PR-AUC on validation.'
+        ],
+        stack: ['Python', 'LightGBM', 'Scikit-learn', 'Stratified K-Fold'],
+        url: 'https://github.com/Samarth211103/Predictive-Maintenance-Anomaly-Detection'
+      },
+      {
+        id: 'superstore',
+        cat: 'bi',
+        badge: 'BI & ANALYTICS',
+        title: 'Superstore Sales Analytics Dashboard',
+        summary: 'Multi-page Power BI dashboard on a 4-year retail dataset (2015–2018) for leadership drill-down reporting.',
+        highlights: [
+          'Covered regional performance, manager-category mapping, YoY growth, and delivery/returns analysis.',
+          'Wrote custom DAX measures and structured a repeatable build process.'
+        ],
+        stack: ['Power BI', 'DAX', 'Power Query', 'Retail Analytics'],
+        url: 'https://github.com/Samarth211103/superstore-sales-analytics-dashboard'
+      },
+      {
+        id: 'ad-campaign',
+        cat: 'bi',
+        badge: 'MARKETING ANALYTICS',
+        title: 'Ad Campaign Performance Analysis',
+        summary: 'Evaluated Facebook Ads CTR, CPC, and CPR across global audience segments to optimize ad spend.',
+        highlights: [
+          'Identified top-performing campaign at ₹1.01 cost-per-result (117 conversions).',
+          'Flagged underperforming segment at ₹30.55 CPR for discontinuation.'
+        ],
+        stack: ['Python', 'Excel', 'CTR / CPC / CPR', 'ROI Analysis'],
+        url: 'https://github.com/Samarth211103/Ad_Campaign_Performance_Analysis-Project'
+      },
+      {
+        id: 'staycatin',
+        cat: 'bi',
+        badge: 'DATA STORYTELLING',
+        title: 'StayCatin — Data Storytelling & Visualization',
+        summary: 'Interactive Tableau dashboards analyzing host earnings, pricing tiers, and geographic revenue.',
+        highlights: [
+          'Surfaced top hosts earning up to $526K across key markets.',
+          'Uncovered a clear correlation between review scores and listing prices.'
+        ],
+        stack: ['Tableau', 'Data Storytelling', 'Geographic Mapping'],
+        url: 'https://github.com/Samarth211103/StayCatin-Project'
+      },
+      {
+        id: 'cisco-labs',
+        cat: 'it',
+        badge: 'NETWORKING & IT SUPPORT',
+        title: 'LAN, Wireless Network & Help Desk Labs',
+        summary: 'Applied Cisco Networking Academy labs covering LAN setup, router config, and help desk incident notes.',
+        highlights: [
+          'Built a functional LAN and configured wireless routers/hosts to verify IP addressing, DNS/DHCP, and HTTP/Email/FTP flow.',
+          'Role-played help desk sessions and wrote structured customer interaction notes and resolutions.'
+        ],
+        stack: ['Cisco Packet Tracer', 'TCP/IP', 'DNS/DHCP', 'Help Desk'],
+        url: 'https://www.linkedin.com/in/samarth-gupta-58b74128b/'
+      }
+    ];
+
+    const SKILLS_DATA = {
+      data: {
+        title: 'Data Analytics, Python & Machine Learning',
+        desc: 'Hands-on experience cleaning large datasets, writing complex SQL, and building validated ML classifiers.',
+        items: [
+          { name: 'Python (Pandas, NumPy, Scikit-learn, LightGBM)', level: 90 },
+          { name: 'SQL (Joins, CTEs, Window Functions, Subqueries)', level: 88 },
+          { name: 'Feature Engineering & Anomaly Detection', level: 84 },
+          { name: 'Hypothesis Testing & A/B Testing Fundamentals', level: 80 }
+        ]
+      },
+      bi: {
+        title: 'Business Intelligence & Data Visualization',
+        desc: '15+ dashboards delivered across internships and portfolio projects to drive weekly stakeholder decisions.',
+        items: [
+          { name: 'Power BI (DAX, Power Query, Data Modeling)', level: 90 },
+          { name: 'Tableau (Interactive Stories & Dashboards)', level: 85 },
+          { name: 'Advanced Excel (Pivot Tables, Lookups) & Google Sheets', level: 92 },
+          { name: 'Matplotlib & Seaborn', level: 85 }
+        ]
+      },
+      it: {
+        title: 'IT Support, Help Desk & Networking',
+        desc: 'Cisco Networking Academy trained across 13+ hands-on networking labs and structured help desk workflows.',
+        items: [
+          { name: 'TCP/IP, Ethernet, IP Addressing, Subnetting, DNS, DHCP', level: 85 },
+          { name: 'LAN Setup, Wireless Router Config & Cisco Packet Tracer', level: 86 },
+          { name: 'Help Desk, Remote Support & Incident Documentation', level: 88 },
+          { name: 'Freshdesk, osTicket & Jira Service Management', level: 80 }
+        ]
+      },
+      cs: {
+        title: 'CS Core, Systems & Version Control',
+        desc: 'Strong B.Tech CS foundation (8.39 CGPA) applied daily as a Computer Science Consultant at Chegg India.',
+        items: [
+          { name: 'Data Structures, OS, DBMS & Computer Networks', level: 88 },
+          { name: 'Windows 10/11, Linux (Ubuntu) & Command Line (CMD)', level: 84 },
+          { name: 'MySQL Workbench & Relational Schema Design', level: 85 },
+          { name: 'Git & GitHub Version Control', level: 86 }
+        ]
+      }
+    };
+
+    const CLI_RESPONSES = {
+      help: [
+        '<span class="text-cyan-400">Available commands:</span>',
+        '  <span class="text-emerald-400">neofetch</span>    — system &amp; profile summary',
+        '  <span class="text-emerald-400">whoami</span>      — bio, location &amp; languages',
+        '  <span class="text-emerald-400">experience</span>  — work &amp; timeline (2020–2026)',
+        '  <span class="text-emerald-400">projects</span>    — 5 portfolio &amp; lab builds',
+        '  <span class="text-emerald-400">skills</span>      — data, ML, BI, networking &amp; CS stack',
+        '  <span class="text-emerald-400">certs</span>       — Cisco, IBM, Tata &amp; Deloitte',
+        '  <span class="text-emerald-400">contact</span>     — email, phone &amp; profile links',
+        '  <span class="text-emerald-400">clear</span>       — clear terminal screen'
+      ],
+      neofetch: [
+        '<span class="text-cyan-400 font-bold">samarth@noida-dev</span>',
+        '-----------------',
+        '<span class="text-violet-400">Role:</span>      Consultant – CS @ Chegg India | Data &amp; ML',
+        '<span class="text-violet-400">Degree:</span>    B.Tech Computer Science (CGPA: 8.39 / 10)',
+        '<span class="text-violet-400">Location:</span>  Noida, Uttar Pradesh, India',
+        '<span class="text-violet-400">Metrics:</span>   58+ Datasets | 30+ SQL | 15+ Dashboards | 0.991 ROC-AUC',
+        '<span class="text-violet-400">Languages:</span> English (Professional Working), Hindi (Native)'
+      ],
+      whoami: [
+        'Samarth Gupta — Computer Science graduate from Chaudhary Charan Singh University (S.C.R.I.E.T., Meerut).',
+        'Bridging Data Analytics, Applied ML (LightGBM), and IT Support/Networking.',
+        'Languages: English (Professional Working), Hindi (Native).'
+      ],
+      experience: [
+        '<span class="text-emerald-400">[Oct 2026 – Present]</span> Consultant – Computer Science @ Chegg India',
+        '<span class="text-amber-400">[Aug 2026 – Sep 2026]</span> Studying — Cisco Networking &amp; IT Support Prep',
+        '<span class="text-emerald-400">[Oct 2025 – Dec 2025]</span> Data Analyst Intern @ Codec Technologies Pvt. Ltd. (+25% accuracy, 8+ dashboards)',
+        '<span class="text-emerald-400">[Apr 2025 – Oct 2025]</span> Data Analyst Trainee @ Coding Ninjas (58 datasets, 30+ SQL queries)',
+        '<span class="text-cyan-400">[Oct 2022 – Jul 2026]</span> B.Tech in Computer Science @ CCS University (8.39/10)',
+        '<span class="text-slate-400">[Aug 2022 – Sep 2022]</span> Career Break — College Admission Transition',
+        '<span class="text-cyan-400">[Jul 2020 – Jul 2022]</span> Class XII (PCM) @ Shri Guru Ram Rai Public School, Hardoi'
+      ],
+      projects: [
+        '1. <span class="text-cyan-400">Predictive Maintenance</span> — LightGBM anomaly detection (0.991 ROC-AUC, 0.847 PR-AUC)',
+        '2. <span class="text-cyan-400">Superstore Sales Dashboard</span> — Multi-page Power BI + custom DAX',
+        '3. <span class="text-cyan-400">Ad Campaign Analysis</span> — Facebook Ads CTR/CPC/CPR (₹1.01 vs ₹30.55 CPR)',
+        '4. <span class="text-cyan-400">StayCatin Storytelling</span> — Tableau host earnings ($526K top hosts)',
+        '5. <span class="text-cyan-400">Cisco Networking &amp; Help Desk Labs</span> — LAN, wireless router, DNS/DHCP, incident notes'
+      ],
+      skills: [
+        '<span class="text-cyan-400">Data &amp; ML:</span> Python (Pandas, NumPy, Scikit-learn, LightGBM), SQL, Hypothesis/A-B Testing',
+        '<span class="text-cyan-400">BI &amp; Viz:</span>  Power BI (DAX, Power Query), Tableau, Excel, Google Sheets, Matplotlib, Seaborn',
+        '<span class="text-cyan-400">IT &amp; Net:</span>  TCP/IP, DNS, DHCP, Cisco Packet Tracer, Windows 10/11, Linux, Freshdesk, Jira',
+        '<span class="text-cyan-400">CS Core:</span>   DSA, OS, DBMS, Computer Networks, MySQL Workbench, Git/GitHub'
+      ],
+      certs: [
+        '• Networking Basics — Cisco Networking Academy (Oct 2026)',
+        '• IT Customer Support Basics — Cisco Networking Academy (Oct 2026)',
+        '• Data Fundamentals — IBM SkillsBuild',
+        '• Data Visualization: Empowering Business — Tata Group (Forage)',
+        '• Data Analytics Job Simulation — Deloitte (Forage)'
+      ],
+      contact: [
+        'Email:     samarthgupta195@gmail.com',
+        'Phone:     +91 9794328201',
+        'GitHub:    https://github.com/Samarth211103',
+        'LinkedIn:  https://www.linkedin.com/in/samarth-gupta-58b74128b/',
+        'Portfolio: https://portfolio-hazel-two-54.vercel.app/'
+      ]
+    };
+
+    let state = {
+      timelineFilter: 'all',
+      projectCat: 'all',
+      projectQuery: '',
+      activeSkill: 'data'
+    };
+
+    let skillsChartInstance = null;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => toast.classList.add('hidden'), 2400);
+    }
+
+    function copyText(text, label) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(label + ' copied: ' + text);
+        }).catch(() => fallbackCopy(text, label));
+      } else {
+        fallbackCopy(text, label);
+      }
+    }
+
+    function fallbackCopy(text, label) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast(label + ' copied: ' + text);
+      } catch (e) {
+        showToast('Copy failed — please copy manually: ' + text);
+      }
+      document.body.removeChild(ta);
+    }
+
+    function runCliCommand(raw) {
+      const cmd = raw.trim().toLowerCase();
+      const out = document.getElementById('terminalOutput');
+      if (!cmd) return;
+      if (cmd === 'clear') {
+        out.innerHTML = '';
+        return;
+      }
+      const echo = document.createElement('div');
+      echo.innerHTML = '<span class="text-emerald-400">samarth@dev:~$</span> <span class="text-white">' + cmd.replace(/</g, '&lt;') + '</span>';
+      out.appendChild(echo);
+
+      const res = document.createElement('div');
+      res.className = 'pl-2 border-l-2 border-slate-700 space-y-1 text-slate-300';
+      const lines = CLI_RESPONSES[cmd];
+      if (lines) {
+        res.innerHTML = lines.map(l => '<div>' + l + '</div>').join('');
+      } else {
+        res.innerHTML = '<div class="text-rose-400">Command not found: ' + cmd.replace(/</g, '&lt;') + '. Type <span class="text-cyan-400">help</span> for available commands.</div>';
+      }
+      out.appendChild(res);
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function renderTimeline() {
+      const container = document.getElementById('timelineContainer');
+      const items = TIMELINE_DATA.filter(item => state.timelineFilter === 'all' || item.type === state.timelineFilter);
+      const badgeStyles = {
+        work: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+        education: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300',
+        transition: 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
+      };
+      const dotStyles = {
+        work: 'bg-emerald-500',
+        education: 'bg-cyan-500',
+        transition: 'bg-amber-500'
+      };
+
+      container.innerHTML = items.map(item => `
+        <div class="relative p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800">
+          <span class="absolute -left-[31px] top-6 w-3.5 h-3.5 rounded-full ${dotStyles[item.type]} ring-4 ring-slate-50 dark:ring-[#070b14]"></span>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-mono uppercase ${badgeStyles[item.type]}">${item.type}</span>
+              <h3 class="font-bold text-base">${item.title}</h3>
+            </div>
+            <span class="text-xs font-mono text-slate-500 dark:text-slate-400">${item.date}</span>
+          </div>
+          <div class="text-sm font-medium text-cyan-700 dark:text-cyan-400 mt-1">${item.org}</div>
+          <ul class="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+            ${item.details.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+          <div class="flex flex-wrap gap-1.5 mt-3">
+            ${item.tags.map(t => `<span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById('projectsGrid');
+      const q = state.projectQuery.trim().toLowerCase();
+      const filtered = PROJECTS_DATA.filter(p => {
+        const matchCat = state.projectCat === 'all' || p.cat === state.projectCat;
+        const hay = (p.title + ' ' + p.summary + ' ' + p.stack.join(' ')).toLowerCase();
+        return matchCat && (!q || hay.includes(q));
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="col-span-full p-8 text-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 text-sm text-slate-500">No projects match that filter. Try clearing the search box.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => `
+        <article class="p-5 rounded-2xl bg-white dark:bg-[#0e1525] border border-slate-200 dark:border-slate-800 hover:border-cyan-500/60 transition flex flex-col justify-between gap-4">
+          <div>
+            <span class="text-[11px] font-mono text-cyan-600 dark:text-cyan-400">${p.badge}</span>
+            <h3 class="font-bold text-base mt-1 leading-snug">${p.title}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">${p.summary}</p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-1.5">
+              ${p.stack.map(s => `<span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${s}</span>`).join('')}
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+              <button type="button" data-proj="${p.id}" class="inspect-proj text-xs font-mono font-semibold text-cyan-600 dark:text-cyan-400 hover:underline">Inspect Details &rarr;</button>
+              <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-slate-500 hover:text-slate-900 dark:hover:text-white">Source ↗</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      grid.querySelectorAll('.inspect-proj').forEach(btn => {
+        btn.addEventListener('click', () => openProjectModal(btn.getAttribute('data-proj')));
+      });
+    }
+
+    function openProjectModal(id) {
+      const proj = PROJECTS_DATA.find(p => p.id === id);
+      if (!proj) return;
+      document.getElementById('modalBadge').textContent = proj.badge;
+      document.getElementById('modalTitle').textContent = proj.title;
+      document.getElementById('modalDesc').textContent = proj.summary;
+      document.getElementById('modalHighlights').innerHTML = proj.highlights.map(h => `<div class="flex items-start gap-2"><span class="text-cyan-500 font-mono">&gt;</span><span>${h}</span></div>`).join('');
+      document.getElementById('modalStack').innerHTML = proj.stack.map(s => `<span class="px-2.5 py-0.5 rounded-md text-xs font-mono bg-slate-100 dark:bg-slate-800">${s}</span>`).join('');
+      document.getElementById('modalLink').href = proj.url;
+      document.getElementById('projectModal').classList.remove('hidden');
+    }
+
+    function renderSkillPanel() {
+      const data = SKILLS_DATA[state.activeSkill];
+      const panel = document.getElementById('skillPanel');
+      panel.innerHTML = `
+        <div>
+          <h3 class="text-lg font-bold">${data.title}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${data.desc}</p>
+        </div>
+        <div class="space-y-3 pt-1">
+          ${data.items.map(item => `
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs sm:text-sm font-medium">
+                <span>${item.name}</span>
+                <span class="font-mono text-cyan-600 dark:text-cyan-400">${item.level}%</span>
+              </div>
+              <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500" style="width: ${item.level}%"></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSkillsChart() {
+      const ctx = document.getElementById('skillsChart').getContext('2d');
+      const isDark = document.documentElement.classList.contains('dark');
+      const tickColor = isDark ? '#94a3b8' : '#475569';
+      const gridColor = isDark ? 'rgba(148,163,184,0.12)' : 'rgba(15,23,42,0.08)';
+      if (skillsChartInstance) skillsChartInstance.destroy();
+      skillsChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Python & ML', 'SQL & Databases', 'Power BI & Tableau', 'IT & Networking', 'CS Core (DSA/OS)'],
+          datasets: [{
+            label: 'Proficiency Index',
+            data: [90, 88, 90, 85, 88],
+            backgroundColor: ['rgba(6,182,212,0.8)', 'rgba(139,92,246,0.8)', 'rgba(16,185,129,0.8)', 'rgba(245,158,11,0.8)', 'rgba(56,189,248,0.8)'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { max: 100, grid: { color: gridColor }, ticks: { color: tickColor } },
+            y: { grid: { display: false }, ticks: { color: tickColor } }
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const savedTheme = localStorage.getItem('samarth_theme');
+        if (savedTheme === 'light') document.documentElement.classList.remove('dark');
+      } catch (e) {}
+
+      if (window.lucide) lucide.createIcons();
+      renderTimeline();
+      renderProjects();
+      renderSkillPanel();
+      renderSkillsChart();
+      runCliCommand('neofetch');
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        try {
+          localStorage.setItem('samarth_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        } catch (e) {}
+        renderSkillsChart();
+      });
+
+      document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+        document.getElementById('mobileNav').classList.toggle('hidden');
+      });
+
+      document.getElementById('terminalForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('terminalInput');
+        runCliCommand(input.value);
+        input.value = '';
+      });
+
+      document.querySelectorAll('.cli-chip').forEach(btn => {
+        btn.addEventListener('click', () => runCliCommand(btn.getAttribute('data-cmd')));
+      });
+
+      document.querySelectorAll('.tl-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.timelineFilter = btn.getAttribute('data-filter');
+          document.querySelectorAll('.tl-filter').forEach(b => {
+            b.className = 'tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+          });
+          btn.className = 'tl-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white';
+          renderTimeline();
+        });
+      });
+
+      document.querySelectorAll('.proj-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.projectCat = btn.getAttribute('data-cat');
+          document.querySelectorAll('.proj-filter').forEach(b => {
+            b.className = 'proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+          });
+          btn.className = 'proj-filter px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white';
+          renderProjects();
+        });
+      });
+
+      document.getElementById('projectSearch').addEventListener('input', (e) => {
+        state.projectQuery = e.target.value;
+        renderProjects();
+      });
+
+      document.querySelectorAll('.skill-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.activeSkill = btn.getAttribute('data-skill');
+          document.querySelectorAll('.skill-tab').forEach(b => {
+            b.className = 'skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+          });
+          btn.className = 'skill-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-cyan-600 text-white';
+          renderSkillPanel();
+        });
+      });
+
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => copyText(btn.getAttribute('data-copy'), btn.getAttribute('data-label')));
+      });
+
+      document.getElementById('closeProjectModal').addEventListener('click', () => {
+        document.getElementById('projectModal').classList.add('hidden');
+      });
+      document.getElementById('projectModal').addEventListener('click', (e) => {
+        if (e.target.id === 'projectModal') e.target.classList.add('hidden');
+      });
+
+      document.getElementById('cmdPaletteBtn').addEventListener('click', () => {
+        document.getElementById('cmdModal').classList.remove('hidden');
+      });
+      document.getElementById('closeCmdModal').addEventListener('click', () => {
+        document.getElementById('cmdModal').classList.add('hidden');
+      });
+      document.getElementById('cmdModal').addEventListener('click', (e) => {
+        if (e.target.id === 'cmdModal') e.target.classList.add('hidden');
+      });
+
+      document.querySelectorAll('.cmd-action').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const action = btn.getAttribute('data-action');
+          document.getElementById('cmdModal').classList.add('hidden');
+          if (action.startsWith('scroll:')) {
+            const target = document.querySelector(action.slice(7));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          } else if (action.startsWith('cli:')) {
+            runCliCommand(action.slice(4));
+            document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+          } else if (action.startsWith('copy:')) {
+            copyText(action.slice(5), 'Email');
+          }
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          document.getElementById('cmdModal').classList.toggle('hidden');
+        } else if (e.key === 'Escape') {
+          document.getElementById('cmdModal').classList.add('hidden');
+          document.getElementById('projectModal').classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
